@@ -4,14 +4,14 @@ var app = electron.app
 var BrowserWindow = electron.BrowserWindow
 var path = require('path')
 var url = require('url')
-var main = require('../src/index.js');
+var main = require('../app.js');
 var system = main();
 var window;
 
 var skeleton_info = {
 	appName: 'appName',
 	appVersion: 'appVersion',
-	appURL: 'http://www.lol.no',
+	appURL: 'appURL',
 	appStatus: 'appStatus'
 };
 
