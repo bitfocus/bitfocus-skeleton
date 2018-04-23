@@ -5,7 +5,66 @@
     <title>BitFocus</title>
   </head>
   <body>
-		<div id="content">Content</div>
+		<style>
+			body,html {
+				margin:0;
+				padding:0;
+			}
+			body {
+				background-color: #282727;
+				color: white;
+				font-family: Helvetica;
+			}
+			#content {
+			}
+			#logo {
+				width: 100px;
+				margin-top:25px;
+				margin-left: 20px;
+			}
+			h1 {
+				position: absolute;
+				top:0px;
+				left: 145px;
+				width: 412px;
+				background-color: #333;
+				padding: 12px 15px;
+			}
+			#url {
+				position: absolute;
+				top:90px;
+				left: 145px;
+				width: 412px;
+				background-color: #333;
+				padding: 12px 15px;
+			}
+			#log {
+				width:570px;
+				padding:15px;
+				font-family: monospace;
+				font-size:11px;
+				background-color: #333;
+				color: white;
+				border-width: 0px;
+				position: absolute;
+				top:140px;
+				height: 207px;
+				left:0px;
+			}
+			#launch {
+				position: absolute;
+				top:100px;
+				left: 12px;
+				width: 115px;
+				font-size: 2em;
+				padding:20px;
+			}
+		</style>
+		<img id="logo" src="./logo.png">
+		<h1 id="status">Status</h2>
+		<div id="url">URL</div>
+		<input type="button" value="Launch GUI" id="launch">
+		<textarea id="log">Log</textarea>
     <script>
       require('./window.js');
     </script>

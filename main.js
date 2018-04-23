@@ -8,6 +8,13 @@ var main = require('../src/index.js');
 var system = main();
 var window;
 
+var skeleton_info = {
+	appName: 'appName',
+	appVersion: 'appVersion',
+	appURL: 'http://www.lol.no',
+	appStatus: 'appStatus'
+};
+
 function createWindow() {
   window = new BrowserWindow({width: 600, height: 400});
 
@@ -20,13 +27,22 @@ function createWindow() {
 	var rpc = new RPC();
 	rpc.configure(window.webContents)
 
-	rpc.on('status', function(req, cb) {
-		cb(null, "initmsg");
+	rpc.on('info', function(req, cb) {
+		cb(null, skeleton_info);
 	});
 
-	system.on('status', function(msg) {
-		rpc.send('status-update', msg);
-	})
+	rpc.on('log', function(req, cb) {
+		cb(null, "Started");
+	});
+
+	system.on('skeleton-info', function(key,val) {
+		skeleton_info[key] = val;
+		rpc.send('info', skeleton_info);
+	});
+
+	system.on('skeleton-log', function(line) {
+		rpc.send('log', line);
+	});
 
   window.on('closed', function () {
     window = null
