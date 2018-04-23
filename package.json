@@ -12,9 +12,6 @@
   ],
   "author": "Bitfocus",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "^1.8.4"
-  },
   "dependencies": {
     "electron-rpc": "^2.0.1"
   }

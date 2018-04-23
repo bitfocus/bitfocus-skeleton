@@ -4,7 +4,7 @@ var app = electron.app
 var BrowserWindow = electron.BrowserWindow
 var path = require('path')
 var url = require('url')
-var main = require('../index.js');
+var main = require('../src/index.js');
 var system = main();
 var window;
 
