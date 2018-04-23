@@ -1,22 +1,21 @@
 {
-  "name": "electron-quick-start",
+  "name": "bitfocus-skeleton",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Bitfocus Electron Skeleton",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/bitfocus/bitfocus-skeleton",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "bitfocus"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Bitfocus",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^1.8.4"
+  },
+  "dependencies": {
+    "electron-rpc": "^2.0.1"
   }
 }
