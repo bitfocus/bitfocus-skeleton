@@ -4,6 +4,8 @@ var app = electron.app
 var BrowserWindow = electron.BrowserWindow
 var path = require('path')
 var url = require('url')
+var main = require('../index.js');
+var system = main();
 var window;
 
 function createWindow() {
@@ -19,10 +21,12 @@ function createWindow() {
 	rpc.configure(window.webContents)
 
 	rpc.on('status', function(req, cb) {
-		cb(null, "datta")
+		cb(null, "initmsg");
 	});
 
-	rpc.send('status', "well ok");
+	system.on('status', function(msg) {
+		rpc.send('status-update', msg);
+	})
 
   window.on('closed', function () {
     window = null
