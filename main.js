@@ -1,7 +1,7 @@
 var electron = require('electron')
 var RPC = require('electron-rpc/server')
 var app = electron.app
-var BrowserWindow = electron.BrowserWindow
+var BrowserWindow = electron.BrowserWindow;
 var path = require('path')
 var url = require('url')
 var main = require('../app.js');
@@ -9,14 +9,21 @@ var system = main();
 var window;
 
 var skeleton_info = {
-	appName: 'appName',
-	appVersion: 'appVersion',
-	appURL: 'appURL',
-	appStatus: 'appStatus'
+	appName: '',
+	appVersion: '',
+	appURL: '',
+	appStatus: ''
 };
 
 function createWindow() {
-  window = new BrowserWindow({width: 600, height: 400});
+  window = new BrowserWindow({
+		width: 400,
+		height: 600,
+		minHeight: 600,
+		minWidth: 400,
+		maxHeight: 600,
+		frame: false
+	});
 
   window.loadURL(url.format({
     pathname: path.join(__dirname, 'window.html'),
@@ -33,6 +40,17 @@ function createWindow() {
 
 	rpc.on('log', function(req, cb) {
 		cb(null, "Started");
+	});
+
+	rpc.on('skeleton-close', function(req, cb) {
+		system.emit('exit');
+	});
+	rpc.on('skeleton-minimize', function(req, cb) {
+		window.minimize();
+	});
+
+	rpc.on('skeleton-ready', function(req, cb) {
+		system.emit('skeleton-ready');
 	});
 
 	system.on('skeleton-info', function(key,val) {

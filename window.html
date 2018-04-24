@@ -9,62 +9,125 @@
 			body,html {
 				margin:0;
 				padding:0;
+				-webkit-app-region:drag;
 			}
 			body {
-				background-color: #282727;
+				background-color: #222;
 				color: white;
-				font-family: Helvetica;
+				font-family: "Helvetica Neue";
 			}
-			#content {
+			#topwrap {
+			}
+			#wrap {
+				width:100%;
+				margin-top:20px;
+				display:block;
+				text-align:center;
 			}
 			#logo {
 				width: 100px;
-				margin-top:25px;
-				margin-left: 20px;
+				padding-top:20px;
+				padding-bottom:10px;
+				text-align:center;
+				user-select: none;
+			}
+			#actions {
+				padding: 10px;
+				display:block;
+				box-shadow: inset 0 0 10px #111;
+				padding-top: 20px;
+				padding-bottom:20px;
+				background-color: #222;
+				user-select: none;
+			}
+
+			.dobutton {
+				font-size: 1em;
+				padding: 10px 20px;
+				border:0px;
+				user-select: none;
+				border-radius:4px;
+			}
+
+			#launch {
+				background-color: rgba(180,255,180,0.9);
+				margin-right: 5px;
+			}
+
+			#hide {
+				background-color: rgba(180,255,255,0.9);
+				margin-right: 5px;
+			}
+
+			#close {
+				background-color: rgba(255,180,180,0.9);
+			}
+
+			input {
+		    -webkit-appearance: textfield;
+		    background-color: white;
+		    -webkit-rtl-ordering: logical;
+		    cursor: text;
+		    padding: 1px;
+		    border-width: 2px;
+		    border-style: inset;
+		    border-color: initial;
+		    border-image: initial;
+			}
+			#status, #model {
+				user-select: none !important;
 			}
 			h1 {
-				position: absolute;
-				top:0px;
-				left: 145px;
-				width: 412px;
 				background-color: #333;
-				padding: 12px 15px;
+				color: #666;
+				padding: 12px 15px 7px 15px;
+				font-size: 40px;
+				font-weight: 100;
+				letter-spacing: 1px;
+				margin-bottom:0;
+				user-select: none;
 			}
 			#url {
-				position: absolute;
-				top:90px;
-				left: 145px;
-				width: 412px;
 				background-color: #333;
-				padding: 12px 15px;
+				padding: 0px 15px 16px 15px;
+				-webkit-app-region: no-drag !important;
 			}
 			#log {
-				width:570px;
-				padding:15px;
+				-webkit-app-region: no-drag !important;
+				width:100%;
 				font-family: monospace;
 				font-size:11px;
-				background-color: #333;
+				background-color: transparent;
 				color: white;
 				border-width: 0px;
-				position: absolute;
-				top:140px;
-				height: 207px;
-				left:0px;
+				height: 221px;
 			}
-			#launch {
-				position: absolute;
-				top:100px;
-				left: 12px;
-				width: 115px;
-				font-size: 2em;
+			#logwrap {
 				padding:20px;
+				background-color: #333;
 			}
+
+			textarea:focus, input:focus{
+		    outline: 0;
+			}
+
 		</style>
-		<img id="logo" src="./logo.png">
-		<h1 id="status">Status</h2>
-		<div id="url">URL</div>
-		<input type="button" value="Launch GUI" id="launch">
-		<textarea id="log">Log</textarea>
+		<div id="wrap">
+			<div id="topwrap">
+				<img id="logo" src="./logo.png">
+				<div id="model"></div>
+			</div>
+			<h1 id="status">Status</h2>
+			<div id="url">URL</div>
+			<div id="actions">
+				<input type="button" class="dobutton" value="Launch GUI" id="launch">
+				<input type="button" class="dobutton" value="Hide" id="hide">
+				<input type="button" class="dobutton" value="Close" id="close">
+			</div>
+			<div id="logwrap">
+				<textarea id="log">Log</textarea>
+			</div>
+		</div>
     <script>
       require('./window.js');
     </script>
