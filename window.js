@@ -1,6 +1,8 @@
 var Client = require('electron-rpc/client')
 var client = new Client();
 var exec = require('child_process').exec;
+var network = require('network');
+var ifs = {};
 
 var skeleton_info = {
 	appName: 'appName',
@@ -8,6 +10,15 @@ var skeleton_info = {
 	appURL: 'appURL',
 	appStatus: 'appStatus'
 };
+
+function add_log(line) {
+	var old_log = document.getElementById("log").innerHTML;
+	document.getElementById("log").innerHTML = old_log + "\n" + line;
+	var textarea = document.getElementById('log');
+	if (textarea.scrollHeight - textarea.scrollTop - textarea.offsetHeight < 20) {
+		textarea.scrollTop = textarea.scrollHeight;
+	}
+}
 
 function skeleton_info_draw() {
 	document.getElementById("status").innerHTML = skeleton_info.appStatus;
@@ -40,12 +51,32 @@ client.on('info', function(err, obj) {
 });
 
 client.on('log', function(err, line) {
-	var old_log = document.getElementById("log").innerHTML;
-	document.getElementById("log").innerHTML = old_log + "\n" + line;
-	var textarea = document.getElementById('log');
-	if (textarea.scrollHeight - textarea.scrollTop - textarea.offsetHeight < 20) {
-		textarea.scrollTop = textarea.scrollHeight;
-	}
+	add_log(line);
 });
+
+
+function get_interfaces_list() {
+	network.get_interfaces_list(function(err, list) {
+		document.getElementById("ifs").innerHTML = "<option value='' selected>[ Change network interface ]</option><option value='127.0.0.1'>localhost / 127.0.0.1</option>";
+
+		for (var n in list) {
+			var obj = list[n];
+			var x = document.getElementById("ifs").innerHTML + "";
+			if (obj.ip_address !== null) {
+				document.getElementById("ifs").innerHTML += "<option value='"+obj.ip_address+"'>"+obj.name+": "+obj.ip_address+" / "+obj.mac_address+" ("+obj.type+")</option>";
+			}
+		}
+
+		document.getElementById('ifs').addEventListener('change', function() {
+			var e = document.getElementById("ifs");
+			var value = e.options[e.selectedIndex].value;
+			client.request('skeleton-bind-ip', value);
+		});
+
+	});
+
+}
+
+get_interfaces_list();
 
 client.request('skeleton-ready');

@@ -13,6 +13,7 @@
   "author": "Bitfocus",
   "license": "MIT",
   "dependencies": {
-    "electron-rpc": "^2.0.1"
+    "electron-rpc": "^2.0.1",
+    "network": "^0.4.1"
   }
 }

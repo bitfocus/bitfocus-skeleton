@@ -45,8 +45,14 @@ function createWindow() {
 	rpc.on('skeleton-close', function(req, cb) {
 		system.emit('exit');
 	});
+
 	rpc.on('skeleton-minimize', function(req, cb) {
 		window.minimize();
+	});
+
+	rpc.on('skeleton-bind-ip', function(req, cb) {
+		console.log("chip:",req.body)
+		system.emit('skeleton-bind-ip', req.body);
 	});
 
 	rpc.on('skeleton-ready', function(req, cb) {

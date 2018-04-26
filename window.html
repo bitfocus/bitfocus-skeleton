@@ -100,7 +100,7 @@
 				background-color: transparent;
 				color: white;
 				border-width: 0px;
-				height: 221px;
+				height: 182px;
 			}
 			#logwrap {
 				padding:20px;
@@ -109,6 +109,9 @@
 
 			textarea:focus, input:focus{
 		    outline: 0;
+			}
+			#ifs {
+				-webkit-app-region: no-drag !important;
 			}
 
 		</style>
@@ -120,6 +123,10 @@
 			<h1 id="status">Status</h2>
 			<div id="url">URL</div>
 			<div id="actions">
+				<select id="ifs">
+				</select>
+				<br>
+				<br>
 				<input type="button" class="dobutton" value="Launch GUI" id="launch">
 				<input type="button" class="dobutton" value="Hide" id="hide">
 				<input type="button" class="dobutton" value="Close" id="close">
