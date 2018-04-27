@@ -22,7 +22,8 @@ function createWindow() {
 		minHeight: 600,
 		minWidth: 400,
 		maxHeight: 600,
-		frame: false
+		frame: false,
+		icon: path.join(__dirname, 'assets/icon.png')
 	});
 
   window.loadURL(url.format({
@@ -32,7 +33,7 @@ function createWindow() {
   }));
 
 	var rpc = new RPC();
-	rpc.configure(window.webContents)
+	rpc.configure(window.webContents);
 
 	rpc.on('info', function(req, cb) {
 		cb(null, skeleton_info);
