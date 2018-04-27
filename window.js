@@ -3,6 +3,8 @@ var client = new Client();
 var exec = require('child_process').exec;
 var network = require('network');
 var ifs = {};
+var fs = require("fs");
+var path = require("path");
 
 var skeleton_info = {
 	appName: 'appName',
@@ -85,3 +87,6 @@ function get_interfaces_list() {
 get_interfaces_list();
 
 client.request('skeleton-ready');
+
+
+//alert( JSON.stringify( {dir:  } ));

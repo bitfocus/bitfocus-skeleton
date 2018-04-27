@@ -6,6 +6,8 @@ var path = require('path')
 var url = require('url')
 var main = require('../app.js');
 var system = main();
+var fs = require("fs");
+var path = require("path");
 var window;
 
 var skeleton_info = {
@@ -13,6 +15,13 @@ var skeleton_info = {
 	appVersion: '',
 	appURL: '',
 	appStatus: ''
+};
+
+function packageinfo() {
+	var self = this;
+	var fileContents = fs.readFileSync(__dirname + '/../package.json');
+  var object = JSON.parse(fileContents);
+	return object;
 };
 
 function createWindow() {
@@ -75,6 +84,12 @@ function createWindow() {
   window.on('closed', function () {
     window = null
   });
+
+	var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
+	var pkg = packageinfo();
+	system.emit('skeleton-info', 'appVersion', pkg.version + " (" + build.trim() + ")" );
+	system.emit('skeleton-info', 'appName', pkg.description);
+	system.emit('skeleton-info', 'appStatus', 'Starting');
 
 }
 
