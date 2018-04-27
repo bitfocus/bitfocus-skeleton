@@ -59,6 +59,9 @@ function createWindow() {
 		system.emit('skeleton-ready');
 	});
 
+	system.on('skeleton-ip-unavail', function() {
+	});
+
 	system.on('skeleton-info', function(key,val) {
 		skeleton_info[key] = val;
 		rpc.send('info', skeleton_info);

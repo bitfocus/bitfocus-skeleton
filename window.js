@@ -45,6 +45,11 @@ client.request('info', function(err, obj) {
 	skeleton_info_draw();
 });
 
+client.on('alert', function(err, obj) {
+	alert("Alert! " + obj);
+	console.log("XXXXX", err,obj);
+});
+
 client.on('info', function(err, obj) {
 	skeleton_info = obj;
 	skeleton_info_draw();
