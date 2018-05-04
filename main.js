@@ -20,12 +20,12 @@ var skeleton_info = {
 function packageinfo() {
 	var self = this;
 	var fileContents = fs.readFileSync(__dirname + '/../package.json');
-  var object = JSON.parse(fileContents);
+	var object = JSON.parse(fileContents);
 	return object;
 };
 
 function createWindow() {
-  window = new BrowserWindow({
+	window = new BrowserWindow({
 		width: 400,
 		height: 600,
 		minHeight: 600,
@@ -35,11 +35,11 @@ function createWindow() {
 		icon: path.join(__dirname, 'assets/icon.png')
 	});
 
-  window.loadURL(url.format({
-    pathname: path.join(__dirname, 'window.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+	window.loadURL(url.format({
+		pathname: path.join(__dirname, 'window.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
 
 	var rpc = new RPC();
 	rpc.configure(window.webContents);
@@ -81,9 +81,9 @@ function createWindow() {
 		rpc.send('log', line);
 	});
 
-  window.on('closed', function () {
-    window = null
-  });
+	window.on('closed', function () {
+		window = null
+	});
 
 	var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
 	var pkg = packageinfo();
@@ -96,11 +96,11 @@ function createWindow() {
 app.on('ready', createWindow);
 
 app.on('window-all-closed', function () {
-  app.quit()
+	app.quit()
 });
 
 app.on('activate', function () {
-  if (window === null) {
-    createWindow();
-  }
+	if (window === null) {
+		createWindow();
+	}
 })
