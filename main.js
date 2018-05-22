@@ -14,7 +14,8 @@ var skeleton_info = {
 	appName: '',
 	appVersion: '',
 	appURL: '',
-	appStatus: ''
+	appStatus: '',
+	configDir: app.getPath('appData')
 };
 
 function packageinfo() {
@@ -93,7 +94,7 @@ function createWindow() {
 	system.emit('skeleton-info', 'appVersion', pkg.version + " (" + build.trim() + ")" );
 	system.emit('skeleton-info', 'appName', pkg.description);
 	system.emit('skeleton-info', 'appStatus', 'Starting');
-
+	system.emit('skeleton-info', 'configDir', app.getPath('appData') );
 }
 
 app.on('ready', createWindow);
