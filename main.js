@@ -33,6 +33,7 @@ function createWindow() {
 		minWidth: 400,
 		maxHeight: 600,
 		frame: false,
+		resizable: false,
 		icon: path.join(__dirname, 'assets/icon.png'),
 		webPreferences: {
 			pageVisibility: true
