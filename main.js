@@ -12,6 +12,7 @@ var window;
 
 var skeleton_info = {
 	appName: '',
+	appBuild: '',
 	appVersion: '',
 	appURL: '',
 	appStatus: '',
@@ -92,7 +93,8 @@ function createWindow() {
 
 	var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
 	var pkg = packageinfo();
-	system.emit('skeleton-info', 'appVersion', pkg.version + " (" + build.trim() + ")" );
+	system.emit('skeleton-info', 'appVersion', pkg.version );
+	system.emit('skeleton-info', 'appBuild', build.trim() );
 	system.emit('skeleton-info', 'appName', pkg.description);
 	system.emit('skeleton-info', 'appStatus', 'Starting');
 	system.emit('skeleton-info', 'configDir', app.getPath('appData') );
