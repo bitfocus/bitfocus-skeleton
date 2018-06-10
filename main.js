@@ -29,9 +29,9 @@ function packageinfo() {
 function createWindow() {
 	window = new BrowserWindow({
 		width: 400,
-		height: 380,
+		height: 440,
 		minHeight: 600,
-		minWidth: 400,
+		minWidth: 440,
 		maxHeight: 380,
 		frame: false,
 		resizable: false,
@@ -69,6 +69,11 @@ function createWindow() {
 	rpc.on('skeleton-bind-ip', function(req, cb) {
 		console.log("chip:",req.body)
 		system.emit('skeleton-bind-ip', req.body);
+	});
+
+	rpc.on('skeleton-bind-port', function(req, cb) {
+		console.log("chip:",req.body)
+		system.emit('skeleton-bind-port', req.body);
 	});
 
 	rpc.on('skeleton-ready', function(req, cb) {

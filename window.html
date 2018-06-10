@@ -101,7 +101,9 @@
 			#ifs, input[type="button"] {
 				-webkit-app-region: no-drag !important;
 			}
-
+			input {
+				-webkit-app-region: no-drag !important;
+			}
 		</style>
 		<div id="wrap">
 			<div id="topwrap">
@@ -111,9 +113,12 @@
 			<h1 id="status">Status</h2>
 			<div id="url">URL</div>
 			<div id="actions">
-				<select id="ifs">
+				<select id="ifs" style="background-color:#333;color:#ccc;font-size:12px !important">
 				</select>
-				<br>
+				<p>
+					<input type='text' maxlength="5" id='ifp' value="8000" style="width:50px;text-align:center;border-radius:3px;background-color:#333;color:#ccc;padding-top:2px; padding-bottom:3px; border:1px solid #ccc">
+					<button type='' id='ifpb' style="border: 1px solid #ccc;border-radius:3px;">Change port</button>
+				</p>
 				<br>
 				<input type="button" class="dobutton" value="Launch GUI" id="launch">
 				<input type="button" class="dobutton" value="Hide" id="hide">

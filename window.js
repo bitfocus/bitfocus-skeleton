@@ -61,16 +61,21 @@ client.on('log', function(err, line) {
 	//add_log(line);
 });
 
+document.getElementById('ifpb').addEventListener('click', function() {
+	var e = document.getElementById("ifp");
+	client.request('skeleton-bind-port', e.value);
+});
+
 
 function get_interfaces_list() {
 	network.get_interfaces_list(function(err, list) {
-		document.getElementById("ifs").innerHTML = "<option value='' selected>[ Change network interface ]</option><option value='127.0.0.1'>localhost / 127.0.0.1</option>";
+		document.getElementById("ifs").innerHTML = "<option value='' selected>Change network interface</option><option value='127.0.0.1'>localhost / 127.0.0.1</option>";
 
 		for (var n in list) {
 			var obj = list[n];
 			var x = document.getElementById("ifs").innerHTML + "";
 			if (obj.ip_address !== null) {
-				document.getElementById("ifs").innerHTML += "<option value='"+obj.ip_address+"'>"+obj.name+": "+obj.ip_address+" / "+obj.mac_address+" ("+obj.type+")</option>";
+				document.getElementById("ifs").innerHTML += "<option value='"+obj.ip_address+"'>"+obj.name+": "+obj.ip_address+" ("+obj.type+")</option>";
 			}
 		}
 
