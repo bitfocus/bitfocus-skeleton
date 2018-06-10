@@ -58,7 +58,7 @@ client.on('info', function(err, obj) {
 });
 
 client.on('log', function(err, line) {
-	add_log(line);
+	//add_log(line);
 });
 
 

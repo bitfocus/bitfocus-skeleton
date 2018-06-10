@@ -29,10 +29,10 @@ function packageinfo() {
 function createWindow() {
 	window = new BrowserWindow({
 		width: 400,
-		height: 600,
+		height: 380,
 		minHeight: 600,
 		minWidth: 400,
-		maxHeight: 600,
+		maxHeight: 380,
 		frame: false,
 		resizable: false,
 		icon: path.join(__dirname, 'assets/icon.png'),
