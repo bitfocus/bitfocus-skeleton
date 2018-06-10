@@ -26,6 +26,27 @@ function packageinfo() {
 	return object;
 };
 
+/* Module should return true if this application should be single instance only */
+system.emit('skeleton-single-instance-only', function (response) {
+	if (response === true) {
+		if (app.requestSingleInstanceLock) { // new api
+			var lock = app.requestSingleInstanceLock();
+			if (!lock) {
+				electron.dialog.showErrorBox('Multiple instances', 'Another instance is already running. Please close the other instance first.');
+				app.quit();
+				return;
+			}
+		} else { // old api
+			var nolock = app.makeSingleInstance(function () {});
+			if (nolock) {
+				electron.dialog.showErrorBox('Multiple instances', 'Another instance is already running. Please close the other instance first.');
+				app.quit();
+				return;
+			}
+		}
+	}
+});
+
 function createWindow() {
 	window = new BrowserWindow({
 		width: 400,
