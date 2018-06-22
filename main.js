@@ -9,6 +9,7 @@ var system = main();
 var fs = require("fs");
 var path = require("path");
 var window;
+var exiting = false;
 
 var skeleton_info = {
 	appName: '',
@@ -32,6 +33,11 @@ system.emit('skeleton-single-instance-only', function (response) {
 		if (app.requestSingleInstanceLock) { // new api
 			var lock = app.requestSingleInstanceLock();
 			if (!lock) {
+				exiting = true;
+
+				if (window !== undefined) {
+					window.close();
+				}
 				electron.dialog.showErrorBox('Multiple instances', 'Another instance is already running. Please close the other instance first.');
 				app.quit();
 				return;
@@ -39,6 +45,11 @@ system.emit('skeleton-single-instance-only', function (response) {
 		} else { // old api
 			var nolock = app.makeSingleInstance(function () {});
 			if (nolock) {
+				exiting = true;
+
+				if (window !== undefined) {
+					window.close();
+				}
 				electron.dialog.showErrorBox('Multiple instances', 'Another instance is already running. Please close the other instance first.');
 				app.quit();
 				return;
@@ -117,13 +128,19 @@ function createWindow() {
 		window = null
 	});
 
-	var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
-	var pkg = packageinfo();
-	system.emit('skeleton-info', 'appVersion', pkg.version );
-	system.emit('skeleton-info', 'appBuild', build.trim() );
-	system.emit('skeleton-info', 'appName', pkg.description);
-	system.emit('skeleton-info', 'appStatus', 'Starting');
-	system.emit('skeleton-info', 'configDir', app.getPath('appData') );
+	if (!exiting) {
+		try {
+			var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
+			var pkg = packageinfo();
+			system.emit('skeleton-info', 'appVersion', pkg.version );
+			system.emit('skeleton-info', 'appBuild', build.trim() );
+			system.emit('skeleton-info', 'appName', pkg.description);
+			system.emit('skeleton-info', 'appStatus', 'Starting');
+			system.emit('skeleton-info', 'configDir', app.getPath('appData') );
+		} catch (e) {
+			console.log("Error reading BUILD and/or package info: ", e);
+		}
+	}
 }
 
 app.on('ready', createWindow);
