@@ -30,8 +30,17 @@ function skeleton_info_draw() {
 }
 
 document.getElementById('launch').addEventListener('click', function() {
-	var isWin = process.platform === "win32";
-	exec((isWin ? 'start ' : 'open ' ) + skeleton_info.appURL, function callback(error, stdout, stderr){});
+	var isWin = process.platform == 'win32';
+	var isMac = process.platform == 'darwin';
+	var isLinux = process.platform == 'linux';
+
+	if (isWin) {
+		exec('start ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+	} else if (isMac) {
+		exec('open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+	} else if (isLinux) {
+		exec('xdg-open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+	}
 });
 
 document.getElementById('hide').addEventListener('click', function() {
