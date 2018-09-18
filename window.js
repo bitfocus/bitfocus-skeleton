@@ -10,7 +10,8 @@ var skeleton_info = {
 	appName: 'appName',
 	appVersion: 'appVersion',
 	appURL: 'appURL',
-	appStatus: 'appStatus'
+	appStatus: 'appStatus',
+	startMinimised: 'startMinimised',
 };
 
 function add_log(line) {
@@ -26,6 +27,7 @@ function skeleton_info_draw() {
 	document.getElementById("status").innerHTML = skeleton_info.appStatus;
 	document.getElementById("url").innerHTML = skeleton_info.appURL;
 	document.getElementById("model").innerHTML = skeleton_info.appName + " v" + skeleton_info.appVersion;
+	document.getElementById("ift").checked = skeleton_info.startMinimised;
 	document.title = skeleton_info.appName;
 }
 
@@ -75,6 +77,10 @@ document.getElementById('ifpb').addEventListener('click', function() {
 	client.request('skeleton-bind-port', e.value);
 });
 
+document.getElementById('ift').addEventListener('click', function() {
+	var e = document.getElementById("ift");
+	client.request('skeleton-start-minimised', e.checked);
+});
 
 function get_interfaces_list() {
 	network.get_interfaces_list(function(err, list) {
