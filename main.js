@@ -10,6 +10,8 @@ var fs = require("fs");
 var path = require("path");
 var window;
 var exiting = false;
+var AppTray = electron.Tray
+var tray = null;
 
 var skeleton_info = {
 	appName: '',
@@ -17,7 +19,8 @@ var skeleton_info = {
 	appVersion: '',
 	appURL: '',
 	appStatus: '',
-	configDir: app.getPath('appData')
+	configDir: app.getPath('appData'),
+	startMinimised: '',
 };
 
 function packageinfo() {
@@ -60,6 +63,7 @@ system.emit('skeleton-single-instance-only', function (response) {
 
 function createWindow() {
 	window = new BrowserWindow({
+		show: false,
 		width: 400,
 		height: 440,
 		minHeight: 600,
@@ -95,7 +99,7 @@ function createWindow() {
 	});
 
 	rpc.on('skeleton-minimize', function(req, cb) {
-		window.minimize();
+		window.hide();
 	});
 
 	rpc.on('skeleton-bind-ip', function(req, cb) {
@@ -106,6 +110,11 @@ function createWindow() {
 	rpc.on('skeleton-bind-port', function(req, cb) {
 		console.log("chip:",req.body)
 		system.emit('skeleton-bind-port', req.body);
+	});
+
+	rpc.on('skeleton-start-minimised', function(req, cb) {
+		console.log("chip:",req.body)
+		system.emit('skeleton-start-minimised', req.body);
 	});
 
 	rpc.on('skeleton-ready', function(req, cb) {
@@ -127,6 +136,12 @@ function createWindow() {
 	window.on('closed', function () {
 		window = null
 	});
+	
+	window.on('ready-to-show', function () {
+		if (!skeleton_info.startMinimised) {
+			showWindow();
+		}
+	});
 
 	if (!exiting) {
 		try {
@@ -143,7 +158,34 @@ function createWindow() {
 	}
 }
 
-app.on('ready', createWindow);
+function createTray() {
+	tray = new AppTray(
+		process.platform == "darwin" ?
+		path.join(__dirname, '..', 'assets', 'trayTemplate.png') :
+		path.join(__dirname, '..', 'assets', 'icon.png')
+	);
+	tray.on('right-click', toggleWindow);
+	tray.on('double-click', toggleWindow);
+	tray.on('click', toggleWindow);
+}
+
+function toggleWindow() {
+	if (window.isVisible()) {
+		window.hide()
+	} else {
+		showWindow()
+	}
+}
+  
+function showWindow() {
+	window.show()
+	window.focus()
+}
+
+app.on('ready', function () {
+	createTray();
+	createWindow();
+});
 
 app.on('window-all-closed', function () {
 	app.quit()
