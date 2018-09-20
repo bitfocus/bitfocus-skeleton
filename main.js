@@ -65,7 +65,7 @@ function createWindow() {
 	window = new BrowserWindow({
 		show: false,
 		width: 400,
-		height: 440,
+		height: 470,
 		minHeight: 600,
 		minWidth: 440,
 		maxHeight: 380,
@@ -103,17 +103,17 @@ function createWindow() {
 	});
 
 	rpc.on('skeleton-bind-ip', function(req, cb) {
-		console.log("chip:",req.body)
+		console.log("changed bind ip:",req.body)
 		system.emit('skeleton-bind-ip', req.body);
 	});
 
 	rpc.on('skeleton-bind-port', function(req, cb) {
-		console.log("chip:",req.body)
+		console.log("changed bind port:",req.body)
 		system.emit('skeleton-bind-port', req.body);
 	});
 
 	rpc.on('skeleton-start-minimised', function(req, cb) {
-		console.log("chip:",req.body)
+		console.log("changed start minimized:",req.body)
 		system.emit('skeleton-start-minimised', req.body);
 	});
 
@@ -136,7 +136,7 @@ function createWindow() {
 	window.on('closed', function () {
 		window = null
 	});
-	
+
 	window.on('ready-to-show', function () {
 		if (!skeleton_info.startMinimised) {
 			showWindow();
@@ -176,7 +176,7 @@ function toggleWindow() {
 		showWindow()
 	}
 }
-  
+
 function showWindow() {
 	window.show()
 	window.focus()
