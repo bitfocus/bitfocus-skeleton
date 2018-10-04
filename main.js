@@ -185,6 +185,23 @@ function showWindow() {
 app.on('ready', function () {
 	createTray();
 	createWindow();
+
+	electron.powerMonitor.on('suspend', () => {
+		system.emit('skeleton-power', 'suspend');
+	});
+
+	electron.powerMonitor.on('resume', () => {
+		system.emit('skeleton-power', 'resume');
+	});
+
+	electron.powerMonitor.on('on-ac', () => {
+		system.emit('skeleton-power', 'ac');
+	});
+
+	electron.powerMonitor.on('on-battery', () => {
+		system.emit('skeleton-power', 'battery');
+	});
+
 });
 
 app.on('window-all-closed', function () {
