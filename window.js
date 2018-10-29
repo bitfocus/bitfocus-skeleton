@@ -26,7 +26,7 @@ function add_log(line) {
 function skeleton_info_draw() {
 	document.getElementById("status").innerHTML = skeleton_info.appStatus;
 	document.getElementById("url").innerHTML = skeleton_info.appURL;
-	document.getElementById("model").innerHTML = skeleton_info.appName + " v" + skeleton_info.appVersion;
+	document.getElementById("model").innerHTML = skeleton_info.appName + " v" + skeleton_info.appVersion + " (" + skeleton_info.appBuild.replace("master-", "") + ")";
 	document.getElementById("ift").checked = skeleton_info.startMinimised;
 	document.title = skeleton_info.appName;
 }
