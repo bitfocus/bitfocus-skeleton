@@ -5,6 +5,7 @@ var network = require('network');
 var ifs = {};
 var fs = require("fs");
 var path = require("path");
+var dialog = require('electron').dialog;
 
 var skeleton_info = {
 	appName: 'appName',
@@ -26,7 +27,7 @@ function add_log(line) {
 function skeleton_info_draw() {
 	document.getElementById("status").innerHTML = skeleton_info.appStatus;
 	document.getElementById("url").innerHTML = skeleton_info.appURL;
-	document.getElementById("model").innerHTML = skeleton_info.appName + " v" + skeleton_info.appVersion + " (" + skeleton_info.appBuild.replace("master-", "") + ")";
+	document.getElementById("model").innerHTML = skeleton_info.appName + " v" + skeleton_info.appVersion + " (" + skeleton_info.appBuild.replace(/-*master-*/, "").replace(/^-/, "")  + ")";
 	document.getElementById("ift").checked = skeleton_info.startMinimised;
 	document.title = skeleton_info.appName;
 }
@@ -36,12 +37,14 @@ document.getElementById('launch').addEventListener('click', function() {
 	var isMac = process.platform == 'darwin';
 	var isLinux = process.platform == 'linux';
 
-	if (isWin) {
-		exec('start ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
-	} else if (isMac) {
-		exec('open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
-	} else if (isLinux) {
-		exec('xdg-open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+	if (skeleton_info.appURL.match(/http/)) {
+		if (isWin) {
+			exec('start ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		} else if (isMac) {
+			exec('open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		} else if (isLinux) {
+			exec('xdg-open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		}
 	}
 });
 
