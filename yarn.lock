@@ -27,6 +27,7 @@ debug@^2.1.2:
 electron-rpc@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/electron-rpc/-/electron-rpc-2.0.1.tgz#0495f1dcf32597320f8661190cff2304a07bddc4"
+  integrity sha1-BJXx3PMllzIPhmEZDP8jBKB73cQ=
 
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
