@@ -73,7 +73,8 @@ function createWindow() {
 		resizable: false,
 		icon: path.join(__dirname, 'assets/icon.png'),
 		webPreferences: {
-			pageVisibility: true
+			pageVisibility: true,
+			nodeIntegration: true
 		}
 	});
 
