@@ -130,6 +130,11 @@ function createWindow() {
 		rpc.send('info', skeleton_info);
 	});
 
+	system.on('restart', function() {
+		app.relaunch()
+		app.exit()
+	});
+
 	system.on('skeleton-log', function(line) {
 		rpc.send('log', line);
 	});
