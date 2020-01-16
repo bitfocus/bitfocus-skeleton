@@ -204,6 +204,15 @@ app.on('ready', function () {
 
 });
 
+system.on('skeleton-abort', (title, message) => {
+	if (window !== undefined) {
+		window.close();
+	}
+
+	electron.dialog.showErrorBox(title, message);
+	app.quit();
+});
+
 app.on('window-all-closed', function () {
 	app.quit()
 });
