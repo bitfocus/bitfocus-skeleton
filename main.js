@@ -8,6 +8,28 @@ var main = require('../app.js');
 var system = main();
 var fs = require("fs");
 var path = require("path");
+const { init, showReportDialog, configureScope } = require('@sentry/electron');
+
+function packageinfo() {
+	var self = this;
+	var fileContents = fs.readFileSync(__dirname + '/../package.json');
+	var object = JSON.parse(fileContents);
+	return object;
+};
+
+var b = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
+
+init({
+	dsn: 'https://535745b2e446442ab024d1c93a349154@sentry.bitfocus.io/8',
+	release: 'companion@' + ( b !== undefined ? b.trim() : packageinfo().version),
+	beforeSend(event) {
+    if (event.exception) {
+      showReportDialog();
+    }
+    return event;
+  }
+});
+
 var window;
 var exiting = false;
 var AppTray = electron.Tray
@@ -23,12 +45,6 @@ var skeleton_info = {
 	startMinimised: '',
 };
 
-function packageinfo() {
-	var self = this;
-	var fileContents = fs.readFileSync(__dirname + '/../package.json');
-	var object = JSON.parse(fileContents);
-	return object;
-};
 
 /* Module should return true if this application should be single instance only */
 system.emit('skeleton-single-instance-only', function (response) {
@@ -158,6 +174,15 @@ function createWindow() {
 			system.emit('skeleton-info', 'appName', pkg.description);
 			system.emit('skeleton-info', 'appStatus', 'Starting');
 			system.emit('skeleton-info', 'configDir', app.getPath('appData') );
+			
+			configureScope(function(scope) {
+				var machidFile = app.getPath('appData') + '/companion/machid'
+				var machid = fs.readFileSync(machidFile).toString().trim()
+				scope.setUser({"id": machid});
+				scope.setExtra("build",build.trim());
+			});
+			
+
 		} catch (e) {
 			console.log("Error reading BUILD and/or package info: ", e);
 		}
