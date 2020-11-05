@@ -98,6 +98,8 @@ function createWindow() {
 		slashes: true
 	}));
 
+	window.webContents.setBackgroundThrottling(false)
+
 	var rpc = new RPC();
 	rpc.configure(window.webContents);
 
