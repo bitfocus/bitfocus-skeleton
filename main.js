@@ -15,11 +15,11 @@ function packageinfo() {
 	return object;
 };
 
-var b = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
+const buildNumber = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
 
 init({
 	dsn: 'https://535745b2e446442ab024d1c93a349154@sentry.bitfocus.io/8',
-	release: 'companion@' + ( b !== undefined ? b.trim() : packageinfo().version),
+	release: 'companion@' + ( buildNumber !== undefined ? buildNumber.trim() : packageinfo().version),
 	beforeSend(event) {
     if (event.exception) {
       showReportDialog();
@@ -85,7 +85,7 @@ function createWindow() {
 		maxHeight: 380,
 		frame: false,
 		resizable: false,
-		icon: path.join(__dirname, 'assets/icon.png'),
+		icon: path.join(__dirname, '../assets/icon.png'),
 		webPreferences: {
 			pageVisibility: true,
 			nodeIntegration: true
@@ -165,10 +165,9 @@ function createWindow() {
 
 	if (!exiting) {
 		try {
-			var build = fs.readFileSync(__dirname + "/../BUILD").toString().trim();
 			var pkg = packageinfo();
 			system.emit('skeleton-info', 'appVersion', pkg.version );
-			system.emit('skeleton-info', 'appBuild', build.trim() );
+			system.emit('skeleton-info', 'appBuild', buildNumber.trim() );
 			system.emit('skeleton-info', 'appName', pkg.description);
 			system.emit('skeleton-info', 'appStatus', 'Starting');
 			system.emit('skeleton-info', 'configDir', app.getPath('appData') );
@@ -177,7 +176,7 @@ function createWindow() {
 				var machidFile = app.getPath('appData') + '/companion/machid'
 				var machid = fs.readFileSync(machidFile).toString().trim()
 				scope.setUser({"id": machid});
-				scope.setExtra("build",build.trim());
+				scope.setExtra("build",buildNumber.trim());
 			});
 			
 
@@ -211,7 +210,7 @@ function showWindow() {
 	window.focus()
 }
 
-app.on('ready', function () {
+app.whenReady().then(function () {
 	createTray();
 	createWindow();
 
