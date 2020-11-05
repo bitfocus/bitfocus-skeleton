@@ -2,10 +2,6 @@ var Client = require('electron-rpc/client')
 var client = new Client();
 var exec = require('child_process').exec;
 var network = require('network');
-var ifs = {};
-var fs = require("fs");
-var path = require("path");
-var dialog = require('electron').dialog;
 
 var skeleton_info = {
 	appName: 'appName',

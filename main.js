@@ -7,11 +7,9 @@ var url = require('url')
 var main = require('../app.js');
 var system = main();
 var fs = require("fs");
-var path = require("path");
 const { init, showReportDialog, configureScope } = require('@sentry/electron');
 
 function packageinfo() {
-	var self = this;
 	var fileContents = fs.readFileSync(__dirname + '/../package.json');
 	var object = JSON.parse(fileContents);
 	return object;
