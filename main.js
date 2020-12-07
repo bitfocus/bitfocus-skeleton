@@ -30,7 +30,6 @@ init({
 
 var window;
 var exiting = false;
-var AppTray = electron.Tray
 var tray = null;
 
 var skeleton_info = {
@@ -189,14 +188,29 @@ function createWindow() {
 }
 
 function createTray() {
-	tray = new AppTray(
+	tray = new electron.Tray(
 		process.platform == "darwin" ?
 		path.join(__dirname, '..', 'assets', 'trayTemplate.png') :
 		path.join(__dirname, '..', 'assets', 'icon.png')
 	);
-	tray.on('right-click', toggleWindow);
 	tray.on('double-click', toggleWindow);
 	tray.on('click', toggleWindow);
+
+	const menu = new electron.Menu()
+	menu.append(new electron.MenuItem({
+		label: 'Show/Hide window',
+		click: toggleWindow,
+	}))
+	menu.append(new electron.MenuItem({
+		label: 'Scan USB Devices',
+		click: scanUsb,
+	}))
+	tray.setContextMenu(menu)
+}
+
+function scanUsb() {
+	console.log('Scan hopefully')
+	system.emit('devices_reenumerate')
 }
 
 function toggleWindow() {
