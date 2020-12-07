@@ -7,6 +7,7 @@ var url = require('url')
 var main = require('../app.js');
 var system = main();
 var fs = require("fs");
+var exec = require('child_process').exec;
 const { init, showReportDialog, configureScope } = require('@sentry/electron');
 
 function packageinfo() {
@@ -118,6 +119,10 @@ function createWindow() {
 		window.hide();
 	});
 
+	rpc.on('skeleton-launch-gui', function () {
+		launchUI()
+	})
+
 	rpc.on('skeleton-bind-ip', function(req, cb) {
 		console.log("changed bind ip:",req.body)
 		system.emit('skeleton-bind-ip', req.body);
@@ -202,11 +207,32 @@ function createTray() {
 		click: toggleWindow,
 	}))
 	menu.append(new electron.MenuItem({
+		label: 'Launch GUI',
+		click: launchUI,
+	}))
+	menu.append(new electron.MenuItem({
 		label: 'Scan USB Devices',
 		click: scanUsb,
 	}))
 	tray.setContextMenu(menu)
 }
+
+function launchUI() {
+	var isWin = process.platform == 'win32';
+	var isMac = process.platform == 'darwin';
+	var isLinux = process.platform == 'linux';
+
+	if (skeleton_info.appURL.match(/http/)) {
+		if (isWin) {
+			exec('start ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		} else if (isMac) {
+			exec('open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		} else if (isLinux) {
+			exec('xdg-open ' + skeleton_info.appURL, function callback(error, stdout, stderr){});
+		}
+	}
+}
+
 
 function scanUsb() {
 	console.log('Scan hopefully')
